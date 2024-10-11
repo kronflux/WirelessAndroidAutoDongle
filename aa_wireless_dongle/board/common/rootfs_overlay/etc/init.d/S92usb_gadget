@@ -4,8 +4,8 @@
 #
 
 SERIAL_NUMBER="0123456"
-MANUFACTURER="My Own"
-PRODUCT="AA Wireless Dongle"
+MANUFACTURER="Raspberry Pi"
+PRODUCT="AAWireless"
 
 ACCESSORY_GADGET_NAME="accessory"
 DEFAULT_GADGET_NAME="default"

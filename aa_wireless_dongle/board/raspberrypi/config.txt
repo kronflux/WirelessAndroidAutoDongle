@@ -1,17 +1,35 @@
+start_file=start.elf
+fixup_file=fixup.dat
 kernel=zImage
 
-disable_splash=1
-boot_delay=0
-disable_poe_fan=1
+# Disable watchdog
+disable_watchdog=1
+
+# no autodetection for anything (will wait for I2C answers)
+camera_auto_detect=0
+display_auto_detect=0
 
 # To use an external initramfs file
 #initramfs rootfs.cpio.gz
 
-# Disable overscan assuming the display supports displaying the full resolution
-# If the text shown on the screen disappears off the edge, comment this out
+# disable HDMI
+dtoverlay=vc4-kms-v3d,nohdmi
+max_framebuffers=1
+disable_fw_kms_setup=1
 disable_overscan=1
-# Add the following line if the board need reduce power drain and increase performance disabling hdmi port
-hdmi_blanking=1
+
+# don't try to read HDMI eeprom
+hdmi_blanking=2
+hdmi_ignore_edid=0xa5000080
+hdmi_ignore_cec_init=1
+hdmi_ignore_cec=1
+hdmi_ignore_hotplug=1
+
+# disable composite video output
+enable_tvout=0
+
+# disable onboard audio
+dtparam=audio=off
 
 # How much memory in MB to assign to the GPU on Pi models having
 # 256, 512 or 1024 MB total memory
@@ -19,8 +37,50 @@ gpu_mem_256=100
 gpu_mem_512=100
 gpu_mem_1024=100
 
+# fixes rpi (3B, 3B+, 3A+, 4B ,zero W and zero 2) ttyAMA0 serial console
+dtoverlay=miniuart-bt
+
+# don't wait for anything
+boot_delay_ms=0
+bootcode_delay=0
+boot_delay=0
+
+# all these options cause a wait for an I2C bus response, we don't need any of them, so let's disable them.
+dtparam=i2c_arm=off
+dtparam=i2s=off
+dtparam=spi=off
+force_eeprom_read=0
+disable_poe_fan=1
+ignore_lcd=1
+disable_touchscreen=1
+disable_fw_kms_setup=1
+
+# disable LEDs
+disable_camera_led=1
+dtparam=act_led_trigger=none
+dtparam=act_led_activelow=on
+
+# don't render the rainbow splash screen
+disable_splash=1
+
+# do not force turbo frequencies at all times (wastes power)
+force_turbo=0
+initial_turbo=10
+arm_boost=0
+
+# Lower CPU frequency during idle states for power saving
+arm_freq_min=200
+
 # Enable autoprobing of Bluetooth driver without need of hciattach/btattach
 dtparam=krnbt=on
+
+# Skip unnecessary boot stages
+bootcode_delay=0
+avoid_safe_mode=1
+disable_startup_nokey=1
+
+# Network optimizations
+dtparam=bt_autoattach=off
 
 # Enable dwc2 required for gadget mode
 dtoverlay=dwc2,dr_mode=peripheral

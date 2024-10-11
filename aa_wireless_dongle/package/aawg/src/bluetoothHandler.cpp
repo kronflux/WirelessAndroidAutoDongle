@@ -5,8 +5,8 @@
 #include "bluetoothProfiles.h"
 #include "bluetoothAdvertisement.h"
 
-static constexpr const char* ADAPTER_ALIAS_PREFIX = "WirelessAADongle-";
-static constexpr const char* ADAPTER_ALIAS_DONGLE_PREFIX = "AndroidAuto-Dongle-";
+static constexpr const char* ADAPTER_ALIAS_PREFIX = "AAWireless-";
+static constexpr const char* ADAPTER_ALIAS_DONGLE_PREFIX = "AndroidAuto-";
 
 static constexpr const char* BLUEZ_BUS_NAME = "org.bluez";
 static constexpr const char* BLUEZ_ROOT_OBJECT_PATH = "/";
@@ -100,7 +100,7 @@ void BluetoothHandler::setPower(bool on) {
     }
 
     m_adapter->powered->set_value(on);
-    Logger::instance()->info("Bluetooth adapter was powered %s\n", on ? "on" : "off");
+    Logger::instance()->info("Bluetooth adapter powered %s\n", on ? "on" : "off");
 }
 
 void BluetoothHandler::setPairable(bool pairable) {
