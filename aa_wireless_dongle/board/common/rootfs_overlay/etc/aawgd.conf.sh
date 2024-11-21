@@ -11,5 +11,5 @@ AAWG_CONNECTION_STRATEGY=1
 
 
 ## Override bluetooth name suffix
-## Set a custom suffix to replace unique id used in "WirelessAADongle-<suffix>" or "AndroidAuto-Dongle-<suffix>"
+## Set a custom suffix to replace unique id used in "AAWireless-<suffix>" or "AndroidAuto-<suffix>"
 #AAWG_UNIQUE_NAME_SUFFIX=
