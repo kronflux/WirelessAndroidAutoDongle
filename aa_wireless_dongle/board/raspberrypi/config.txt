@@ -1,26 +1,137 @@
+# Specify the kernel image for the Raspberry Pi.
 kernel=zImage
 
-disable_splash=1
+# Load specific firmware files required for the boot process.
+start_file=start.elf
+fixup_file=fixup.dat
+
+# Disable delays before loading the kernel.
 boot_delay=0
-disable_poe_fan=1
+boot_delay_ms=0
+bootcode_delay=0
 
-# To use an external initramfs file
-#initramfs rootfs.cpio.gz
+# Disable kernel safe mode to ensure normal operation.
+avoid_safe_mode=1
 
-# Disable overscan assuming the display supports displaying the full resolution
-# If the text shown on the screen disappears off the edge, comment this out
+# Prevent unnecessary resets by disabling the hardware watchdog timer.
+disable_watchdog=1
+
+# Remove the rainbow splash screen shown during the boot process.
+disable_splash=1
+
+# Ensure an unattended boot process by disabling startup prompts.
+disable_startup_nokey=1
+
+# Disable overscan if the display supports full resolution without adjustments.
 disable_overscan=1
-# Add the following line if the board need reduce power drain and increase performance disabling hdmi port
+
+# Turn off the HDMI signal to reduce power consumption.
 hdmi_blanking=1
 
-# How much memory in MB to assign to the GPU on Pi models having
-# 256, 512 or 1024 MB total memory
+# Ignore EDID data from HDMI to enforce manual display configurations.
+hdmi_ignore_edid=0xa5000080
+
+# Disable HDMI CEC features.
+hdmi_ignore_cec=1
+hdmi_ignore_cec_init=1
+
+# Ignore HDMI hotplug detection to prevent automatic display configuration.
+hdmi_ignore_hotplug=1
+
+# Disable HDMI output and use the KMS driver for display rendering.
+dtoverlay=vc4-kms-v3d,nohdmi
+
+# Disable firmware-managed KMS configuration.
+disable_fw_kms_setup=1
+
+# Reduce the number of framebuffers to minimize memory usage.
+max_framebuffers=1
+
+# Disable composite video output to reduce power consumption.
+enable_tvout=0
+
+# Allocate memory for the GPU on devices with 256MB, 512MB, and 1024MB of RAM.
 gpu_mem_256=100
 gpu_mem_512=100
 gpu_mem_1024=100
 
-# Enable autoprobing of Bluetooth driver without need of hciattach/btattach
+# Disable onboard audio hardware to reduce power usage and improve performance.
+dtparam=audio=off
+
+# Disable automatic detection of attached cameras.
+camera_auto_detect=0
+
+# Disable automatic detection of attached displays.
+display_auto_detect=0
+
+# Disable the I2C bus to reduce power consumption.
+dtparam=i2c_arm=off
+
+# Disable the I2S audio interface to reduce power consumption.
+dtparam=i2s=off
+
+# Disable the SPI bus to reduce power consumption.
+dtparam=spi=off
+
+# Disable EEPROM reads during the boot process to improve performance.
+force_eeprom_read=0
+
+# Ignore attached LCDs to optimize for headless operation.
+ignore_lcd=1
+
+# Disable support for touchscreens to reduce power consumption.
+disable_touchscreen=1
+
+# Fix the UART configuration for Bluetooth on the device.
+dtoverlay=miniuart-bt
+
+# Enable automatic probing of the kernel Bluetooth driver.
 dtparam=krnbt=on
 
-# Enable dwc2 required for gadget mode
+# Disable automatic attachment of Bluetooth devices.
+dtparam=bt_autoattach=off
+
+# Enable USB gadget mode to allow the device to function as a USB peripheral.
 dtoverlay=dwc2,dr_mode=peripheral
+
+# Disable the LED on the camera module to reduce power consumption.
+disable_camera_led=1
+
+# Turn off the activity LED to reduce power consumption.
+dtparam=act_led_trigger=none
+
+# Configure the activity LED for low-power operation.
+dtparam=act_led_activelow=on
+
+# Disable the PoE fan to reduce power consumption.
+disable_poe_fan=1
+
+# Do not force the CPU to run at maximum clock speeds at all times.
+force_turbo=0
+
+# Disable the ARM CPU boost mode to reduce power consumption.
+arm_boost=0
+
+# Allow short bursts of high performance during startup.
+initial_turbo=10
+
+# Set the operating frequency of the ARM CPU.
+arm_freq=1085
+
+# Set the minimum frequency for the ARM CPU during idle states.
+arm_freq_min=200
+
+# Set the core frequency for the system.
+core_freq=515
+
+# Set the minimum core frequency for the system during idle states.
+core_freq_min=365
+
+# Apply a slight overvoltage to the ARM CPU for stability.
+over_voltage=2
+
+# Set the frequency of the SDRAM.
+sdram_freq=533
+
+# Apply a slight overvoltage to the SDRAM for stability.
+over_voltage_sdram=1
