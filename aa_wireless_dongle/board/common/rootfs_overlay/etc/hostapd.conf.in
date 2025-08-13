@@ -1,16 +1,95 @@
+########################################
+# Control & Interface
+########################################
+# Path to the control interface (used by hostapd_cli and other tools)
 ctrl_interface=/var/run/hostapd
+
+# Wireless interface used for the AP
 interface=wlan0
 
-hw_mode=g
-ieee80211n=1
-channel=6
 
+########################################
+# Radio / Physical Layer
+########################################
+# 2.4 GHz mode:
+#   a = 5 GHz (802.11a)
+#   b = 2.4 GHz (802.11b)
+#   g = 2.4 GHz (802.11g baseline, 802.11n enabled separately)
+hw_mode=g
+
+# Enforce country-specific channel and transmit power limits
+ieee80211d=1
+
+# Enable 802.11n (High Throughput) features
+ieee80211n=1
+
+# Require 802.11n-capable clients (keeps legacy non-HT clients off the AP)
+require_ht=1
+
+# Primary channel (2.4 GHz). On channel 11, a valid 40 MHz extension is below (HT40-).
+channel=11
+
+# OBSS scan interval (seconds): allows 40 MHz when clear; falls back if neighbors appear
+obss_interval=300
+
+# Enable WMM (Wireless Multimedia) for proper QoS.
+# Required for 802.11n data rates and latency-sensitive traffic like Android Auto.
+wmm_enabled=1
+
+# Disable U-APSD advertisement to reduce latency spikes with some Android devices
+uapsd_advertisement_enabled=0
+
+
+########################################
+# Security & Authentication
+########################################
+# Authentication algorithms:
+#   1 = Open system (required for WPA/WPA2)
 auth_algs=1
+
+# WPA mode:
+#   1 = WPA
+#   2 = WPA2/RSN only (more secure, recommended)
 wpa=2
+
+# WPA key management type:
+#   WPA-PSK = Pre-shared key (passphrase)
 wpa_key_mgmt=WPA-PSK
+
+# Cipher suite for WPA2:
+#   CCMP = AES encryption
 rsn_pairwise=CCMP
 
+
+########################################
+# 802.11n (HT) Capabilities
+########################################
+# HT40-           : 40 MHz extension channel below primary (correct for channel 11).
+# SHORT-GI-20/40  : 400 ns guard interval for 20/40 MHz (~10% throughput gain).
+# MAX-AMSDU-3839  : A-MSDU aggregation up to 3839 bytes (efficiency boost).
+# DSSS_CCK-40     : Permit legacy 11b rates in 40 MHz mode (compatibility).
+ht_capab=[HT40-][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-3839][DSSS_CCK-40]
+
+
+########################################
+# SSID & Passphrase
+########################################
+# Broadcast network name
 ssid=AAWireless
 
-#wpa_passphrase=ConnectAAWireless
-#country_code=CA
+# WPA2 passphrase (8–63 characters)
+wpa_passphrase=ConnectAAWireless
+
+
+########################################
+# Capacity / Housekeeping
+########################################
+# Limit the station table (single-purpose AP doesn’t need many)
+max_num_sta=16
+
+
+########################################
+# Regulatory Domain
+########################################
+# Country code (ISO/IEC 3166-1 alpha-2). Required for ieee80211d to apply.
+country_code=CA
