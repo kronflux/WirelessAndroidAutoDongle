@@ -12,5 +12,5 @@ rsn_pairwise=CCMP
 
 ssid=AAWireless
 
-#country_code=IN
 #wpa_passphrase=ConnectAAWireless
+#country_code=CA
