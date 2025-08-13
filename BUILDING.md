@@ -1,4 +1,4 @@
-# Building Wireless Android Auto Dongle
+# Building Android Auto Wireless
 
 This repository contains a docker setup to make the build process easy.
 
@@ -7,7 +7,7 @@ If you choose to build without Docker, refer [the Buildroot user manual
 
 ## Clone
 ```shell
-$ git clone --recurse-submodules https://github.com/nisargjhaveri/WirelessAndroidAutoDongle
+$ git clone --recurse-submodules https://github.com/kronflux/WirelessAndroidAutoDongle
 ```
 
 ## Build with Docker
@@ -28,7 +28,7 @@ Once you have a recursive clone, you can manually build using the following set 
 
 ```shell
 $ cd buildroot
-$ make BR2_EXTERNAL=../aa_wireless_dongle/ O=output/rpi0w raspberrypi0w_defconfig # Change output and defconfig for your board
+$ make BR2_EXTERNAL=../aa_wireless/ O=output/rpi0w raspberrypi0w_defconfig # Change output and defconfig for your board
 $ cd output/rpi0w
 $ make
 ```

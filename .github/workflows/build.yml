@@ -26,7 +26,7 @@ jobs:
         submodules: recursive
 
     - name: Setup config
-      run: make BR2_EXTERNAL=../aa_wireless_dongle/ ${{ matrix.defconfig }}_defconfig
+      run: make BR2_EXTERNAL=../aa_wireless/ ${{ matrix.defconfig }}_defconfig
       working-directory: ./buildroot
 
     - name: Build
@@ -39,7 +39,7 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: WirelessAndroidAutoDongle-${{ matrix.defconfig }}
+        name: WirelessAndroidAuto-${{ matrix.defconfig }}
         path: ./buildroot/output/images/${{ matrix.defconfig }}-sdcard.img.xz
   
   merge:
@@ -48,4 +48,4 @@ jobs:
     steps:
       - uses: actions/upload-artifact/merge@v4
         with:
-          name: WirelessAndroidAutoDongle-all
+          name: WirelessAndroidAuto-all

@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_AA_WIRELESS_PATH/package/Config.in"
