@@ -69,7 +69,11 @@ rsn_pairwise=CCMP
 # MAX-AMSDU-3839  : A-MSDU aggregation up to 3839 bytes (efficiency boost).
 # DSSS_CCK-40     : Permit legacy 11b rates in 40 MHz mode (compatibility).
 ht_capab=[HT40-][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-3839][DSSS_CCK-40]
-
+########################################
+# Capacity / Housekeeping
+########################################
+# Limit the station table (single-purpose AP doesn’t need many)
+max_num_sta=16
 
 ########################################
 # SSID & Passphrase
@@ -79,13 +83,6 @@ ssid=AAWireless
 
 # WPA2 passphrase (8–63 characters)
 wpa_passphrase=ConnectAAWireless
-
-
-########################################
-# Capacity / Housekeeping
-########################################
-# Limit the station table (single-purpose AP doesn’t need many)
-max_num_sta=16
 
 
 ########################################
