@@ -1,1 +1,1 @@
-root=/dev/mmcblk0p2 rootflags=fastboot rootwait console=tty1 fsck.repair=no quiet loglevel=3 logo.nologo consoleblank=0
+root=/dev/mmcblk0p2 rootflags=fastboot rootwait fsck.repair=no console=tty1 consoleblank=0 loglevel=3 quiet logo.nologo modules-load=dwc2,libcomposite
