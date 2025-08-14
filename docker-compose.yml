@@ -1,6 +1,7 @@
 services:
   bash: &base
-    build: .
+    build:
+      context: .
     image: aawg-buildroot
     volumes:
       - .:/app
@@ -11,9 +12,15 @@ services:
 
   generate_image_donotuse: &generate_image
     <<: *base
-    user: "0:0"
     command: >
-      bash -x -c "mkdir -p output/$${BOARD_NAME} && make BR2_EXTERNAL=../aa_wireless/ O=output/$${BOARD_NAME} $${BOARD_NAME}_defconfig && cd output/$${BOARD_NAME} && make && mkdir -p /app/images/ && cp images/sdcard.img /app/images/sdcard-$${BOARD_NAME}.img"
+      bash -x -c "
+      mkdir -p output/$${BOARD_NAME} && 
+      make BR2_EXTERNAL=../aa_wireless/ O=output/$${BOARD_NAME} $${BOARD_NAME}_defconfig && 
+      cd output/$${BOARD_NAME} && 
+      make && 
+      mkdir -p /app/images/ && 
+      cp images/sdcard.img /app/images/sdcard-$${BOARD_NAME}.img
+      "
 
   rpi0w:
     <<: *generate_image
