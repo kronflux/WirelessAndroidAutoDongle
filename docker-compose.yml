@@ -1,7 +1,6 @@
 services:
   bash: &base
-    build:
-      context: .
+    build: .
     image: aawg-buildroot
     volumes:
       - .:/app
@@ -14,11 +13,11 @@ services:
     <<: *base
     command: >
       bash -x -c "
-      mkdir -p output/$${BOARD_NAME} && 
-      make BR2_EXTERNAL=../aa_wireless/ O=output/$${BOARD_NAME} $${BOARD_NAME}_defconfig && 
-      cd output/$${BOARD_NAME} && 
-      make && 
-      mkdir -p /app/images/ && 
+      mkdir -p output/$${BOARD_NAME} &&
+      make BR2_EXTERNAL=../aa_wireless/ O=output/$${BOARD_NAME} $${BOARD_NAME}_defconfig &&
+      cd output/$${BOARD_NAME} &&
+      make &&
+      mkdir -p /app/images/ &&
       cp images/sdcard.img /app/images/sdcard-$${BOARD_NAME}.img
       "
 
