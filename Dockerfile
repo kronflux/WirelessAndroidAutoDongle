@@ -8,11 +8,10 @@ RUN apt-get -q update && \
     apt-get -q -y install file wget cpio rsync locales \
         build-essential libncurses5-dev python3-setuptools \
         git bzr cvs mercurial subversion libc6 unzip bc \
-        vim nano sudo && \
+        vim nano && \
     apt-get -q -y autoremove && \
     apt-get -q -y clean && \
-    update-locale LC_ALL=C && \
-    rm -rf /var/lib/apt/lists/*
+    update-locale LC_ALL=C
 
 RUN useradd -ms /bin/bash buildroot
 

@@ -13,7 +13,6 @@ services:
     <<: *base
     command: >
       bash -x -c "
-      mkdir -p output/$${BOARD_NAME} &&
       make BR2_EXTERNAL=../aa_wireless/ O=output/$${BOARD_NAME} $${BOARD_NAME}_defconfig &&
       cd output/$${BOARD_NAME} &&
       make &&
