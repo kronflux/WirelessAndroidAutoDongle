@@ -24,7 +24,7 @@ In theory, this can be extended to more hardware in future with these basic requ
 - Should be able to operate on power provided by the car.
 
 ## Install and run
-[Download a pre-built sd card image](https://github.com/nisargjhaveri/WirelessAndroidAutoDongle/releases) for your board. You can also [build one yourself](BUILDING.md). Install the image on the SD card using your favorite tool.
+[Download a pre-built sd card image](https://github.com/kronflux/WirelessAndroidAutoDongle/releases) for your board. You can also [build one yourself](BUILDING.md). Install the image on the SD card using your favorite tool.
 
 You may want to update the country code and other settings that works best for you. See [Configurations](#Configurations)
 
@@ -71,14 +71,9 @@ Once you've already tried multiple times and it still does not work, you can ssh
 - Once you're in, try to have a look at `/var/log/messages` file, it should have most relevant logs to start with. You can also copy the file and attach to issues you create if any.
 
 ## Contribute
-[Find or create a new issue](https://github.com/nisargjhaveri/WirelessAndroidAutoDongle/issues) for any bugs or improvements.
+[Find or create a new issue](https://github.com/kronflux/WirelessAndroidAutoDongle/issues) for any bugs or improvements.
 
-Feel free to [Create a PR](https://github.com/nisargjhaveri/WirelessAndroidAutoDongle/pulls) to fix any issues. Refer [BUILDING.md](BUILDING.md) for instructions on how to build locally.
-
-## Support 
-Please [consider sponsoring](https://github.com/sponsors/nisargjhaveri) if you find the project useful. Even a small donation helps. This will help continuing fixing issues and getting support for more devices and headunit in future.
-
-In any case, don't forget to star on github and spread the word if you think this project might be useful to someone else as well.
+Feel free to [Create a PR](https://github.com/kronflux/WirelessAndroidAutoDongle/pulls) to fix any issues. Refer [BUILDING.md](BUILDING.md) for instructions on how to build locally.
 
 ## Limitations
 This is currently tested with very limited set of headunits and cars. Let me know if it does not work with your headunit.

@@ -7,7 +7,7 @@ If you choose to build without Docker, refer [the Buildroot user manual
 
 ## Clone
 ```shell
-$ git clone --recurse-submodules https://github.com/nisargjhaveri/WirelessAndroidAutoDongle
+$ git clone --recurse-submodules https://github.com/kronflux/WirelessAndroidAutoDongle
 ```
 
 ## Build with Docker
