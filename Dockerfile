@@ -1,6 +1,6 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -q update
 RUN apt-get purge -q -y snapd lxcfs lxd ubuntu-core-launcher snap-confine
@@ -21,4 +21,4 @@ VOLUME /app/buildroot/output
 
 USER buildroot
 
-CMD /bin/bash
+CMD ["/bin/bash"]
