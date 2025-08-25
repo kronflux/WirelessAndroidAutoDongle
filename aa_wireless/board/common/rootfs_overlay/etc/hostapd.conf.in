@@ -10,7 +10,7 @@ wpa=2
 wpa_key_mgmt=WPA-PSK
 rsn_pairwise=CCMP
 
-ssid=AAWireless
+ssid=AndroidAuto
 
 #wpa_passphrase=ConnectAAWireless
 #country_code=CA

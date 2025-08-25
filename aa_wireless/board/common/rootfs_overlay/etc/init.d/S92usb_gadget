@@ -3,14 +3,15 @@
 # Configure USB gadget interfaces
 #
 
-SERIAL_NUMBER="3141592"
-MANUFACTURER="Raspberry Pi"
-PRODUCT="AAWireless"
+SERIAL_NUMBER="3141592653589793"
+MANUFACTURER="google"
+PRODUCT="android.auto"
 
 ACCESSORY_GADGET_NAME="accessory"
 DEFAULT_GADGET_NAME="default"
 
-FUNCTIONFS_PATH=/dev/ffs-mtp
+FUNCTIONFS_MTP=/dev/ffs-mtp
+FUNCTIONFS_PTP=/dev/ffs-ptp
 DAEMON=umtprd
 PIDFILE="/var/run/$DAEMON.pid"
 
@@ -25,15 +26,37 @@ start() {
 	if [ ! -d "$ACCESSORY_GADGET_NAME" ]; then
 		mkdir "$ACCESSORY_GADGET_NAME"
 		cd "$ACCESSORY_GADGET_NAME"
+		
+		# Core IDs
 		echo "0x18D1" > idVendor
 		echo "0x2D00" > idProduct
+		
+		# USB descriptors
+		echo "0x0200" > bcdUSB
+		echo "0x0100" > bcdDevice
+		
+		# Android Accessory class codes
+		echo "0xFF" > bDeviceClass
+		echo "0xFF" > bDeviceSubClass
+		echo "0x00" > bDeviceProtocol
+		
+		# Strings
 		mkdir strings/0x409
 		echo "$SERIAL_NUMBER" > strings/0x409/serialnumber
 		echo "$MANUFACTURER" > strings/0x409/manufacturer
 		echo "$PRODUCT" > strings/0x409/product
+		
+		# Function
 		mkdir functions/accessory.usb0
+		
+		# Configuration
 		mkdir configs/c.1
 		echo 500 > configs/c.1/MaxPower
+		
+		# Configuration string
+		mkdir configs/c.1/strings/0x409
+		echo "AA Wireless" > configs/c.1/strings/0x409/configuration
+		
 		ln -s functions/accessory.usb0 configs/c.1
 	fi
 
@@ -42,26 +65,63 @@ start() {
 	if [ ! -d "$DEFAULT_GADGET_NAME" ]; then
 		mkdir "$DEFAULT_GADGET_NAME"
 		cd "$DEFAULT_GADGET_NAME"
+		
+		# Core IDs
 		echo "0x18D1" > idVendor
 		echo "0x4EE1" > idProduct
+		
+		# USB descriptors
+		echo "0x0200" > bcdUSB
+		echo "0x3008" > bcdDevice
+		
+		# MTP class codes (matching umtprd.conf)
+		echo "0x06" > bDeviceClass
+		echo "0x01" > bDeviceSubClass
+		echo "0x01" > bDeviceProtocol
+		
+		# Strings
 		mkdir strings/0x409
 		echo "$SERIAL_NUMBER" > strings/0x409/serialnumber
 		echo "$MANUFACTURER" > strings/0x409/manufacturer
 		echo "$PRODUCT" > strings/0x409/product
+		
+		# Functions
 		mkdir functions/ffs.mtp
+		mkdir functions/ffs.ptp
+		mkdir functions/rndis.usb0
+		mkdir functions/acm.usb0
+		
+		# Configuration
 		mkdir configs/c.1
 		echo 500 > configs/c.1/MaxPower
+		
+		# Add configuration string
+		mkdir configs/c.1/strings/0x409
+		echo "MTP/PTP/RNDIS/ACM" > configs/c.1/strings/0x409/configuration
+		
 		ln -s functions/ffs.mtp configs/c.1
+		ln -s functions/ffs.ptp configs/c.1
+		ln -s functions/rndis.usb0 configs/c.1
+		ln -s functions/acm.usb0 configs/c.1
+
+		# Microsoft OS descriptors
+		echo 1 > os_desc/use
+		echo 0x1 > os_desc/b_vendor_code
+		echo "MSFT100" > os_desc/qw_sign
+		ln -s configs/c.1 os_desc/c.1
 	fi
 
 	# Setting up usb_gadget:
 	echo "OK"
 
+	# Start daemons and mount functionfs
 	printf "Starting $DAEMON: "
-	if [ ! -f "$FUNCTIONFS_PATH" ]; then
-		mkdir "$FUNCTIONFS_PATH"
-	fi
-	mount -t functionfs mtp "$FUNCTIONFS_PATH"
+	[ ! -d "$FUNCTIONFS_MTP" ] && mkdir "$FUNCTIONFS_MTP"
+	[ ! -d "$FUNCTIONFS_PTP" ] && mkdir "$FUNCTIONFS_PTP"
+
+	mount -t functionfs mtp "$FUNCTIONFS_MTP"
+	mount -t functionfs ptp "$FUNCTIONFS_PTP"
+
 	start-stop-daemon -S -b -q -m -p "$PIDFILE" -x "/usr/sbin/$DAEMON"
 	RETVAL=$?
 	sleep 1
@@ -73,15 +133,14 @@ stop() {
 	cd /sys/kernel/config/usb_gadget
 	echo "" > "$ACCESSORY_GADGET_NAME"/UDC
 	echo "" > "$DEFAULT_GADGET_NAME"/UDC
-
-	# Disable usb_gadget:
 	echo "OK"
 
 	printf "Stopping $DAEMON: "
 	start-stop-daemon -K -q -s 9 -p "$PIDFILE"
 	RETVAL=$?
-	umount "$FUNCTIONFS_PATH"
-	rm -r "$FUNCTIONFS_PATH"
+	umount "$FUNCTIONFS_MTP"
+	umount "$FUNCTIONFS_PTP"
+	rm -r "$FUNCTIONFS_MTP" "$FUNCTIONFS_PTP"
 	[ $RETVAL = 0 ] && echo "OK" || echo "FAIL"
 }
 
